@@ -1,0 +1,330 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FLAMES — Glittery Black & Purple</title>
+  <style>
+    :root{
+      --bg1:#0b0010; /* near black */
+      --bg2:#230033; /* deep purple */
+      --accent:#a259ff;
+      --glow: rgba(162,89,255,0.45);
+      --glass: rgba(255,255,255,0.04);
+      --button-height:52px;
+      --radius:18px;
+      font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    /* page background with moving blinking light */
+    html,body{height:100%;margin:0}
+    body{
+      background: radial-gradient(1200px 600px at 10% 20%, rgba(160,60,255,0.06), transparent 6%),
+                  radial-gradient(900px 500px at 85% 80%, rgba(80,0,140,0.08), transparent 8%),
+                  linear-gradient(180deg,var(--bg1), var(--bg2));
+      color:#eae6ff;
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+    }
+    /* subtle star sparkles generated with pseudo-elements */
+    .twinkle{
+      position:fixed;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0.9;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.08) 0 1px, transparent 2px),
+        radial-gradient(circle at 30% 70%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
+        radial-gradient(circle at 75% 40%, rgba(255,255,255,0.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 60% 90%, rgba(255,255,255,0.04) 0 1px, transparent 2px);
+      animation: twinkle 5s linear infinite;
+      filter: blur(0.2px);
+    }
+    @keyframes twinkle{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}/* animated blinking light (big soft orb) */
+.blinking-orb{
+  position:fixed;left:50%;top:-10%;width:900px;height:900px;border-radius:50%;transform:translateX(-50%);
+  background:radial-gradient(circle at 40% 30%, rgba(170,120,255,0.12), rgba(80,0,160,0.06) 35%, transparent 55%);
+  filter:blur(40px);
+  animation: floatOrb 8s ease-in-out infinite;
+  mix-blend-mode: screen;pointer-events:none;opacity:0.9;
+}
+@keyframes floatOrb{0%{transform:translateX(-55%) translateY(0) scale(1)}50%{transform:translateX(-45%) translateY(40px) scale(1.05)}100%{transform:translateX(-55%) translateY(0) scale(1)}}
+
+/* main card */
+.card{
+  width:min(880px,95vw);
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:22px;
+  padding:28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.02) inset;
+  backdrop-filter: blur(6px) saturate(1.1);
+  border:1px solid rgba(255,255,255,0.03);
+  position:relative;
+  overflow:hidden;
+}
+.header{
+  display:flex;align-items:center;gap:16px;margin-bottom:12px;
+}
+.logo{
+  width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font-weight:700;font-size:22px;
+  background:linear-gradient(135deg,#3b0066,#9b4dff);
+  box-shadow:0 6px 18px rgba(100,0,200,0.28);
+  color:white;
+}
+h1{font-size:20px;margin:0}
+p.lead{margin:0;color:rgba(230,220,255,0.8);font-size:13px}
+
+.form{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;align-items:end;
+}
+.field{display:flex;flex-direction:column;gap:8px}
+label{font-size:12px;color:rgba(230,220,255,0.75)}
+input[type=text]{
+  height:44px;border-radius:12px;padding:10px 14px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit;font-size:14px;
+  outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+}
+input[type=text]::placeholder{color:rgba(230,220,255,0.35)}
+
+/* glittery buttons */
+.controls{display:flex;gap:12px;align-items:center;margin-top:14px}
+.btn{
+  height:var(--button-height);min-width:120px;border-radius:12px;padding:0 18px;border:0;cursor:pointer;position:relative;overflow:hidden;font-weight:700;
+  letter-spacing:0.6px;background:linear-gradient(90deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
+  color:white;box-shadow:0 8px 24px rgba(40,0,70,0.35);
+}
+/* glitter effect using animated gradient + pseudo-element sparkles */
+.btn.accent{background:linear-gradient(90deg,#6b1bff,#c27bff);}
+.btn.accent::before{
+  content:'';position:absolute;inset:0;left:-40%;background:linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);transform:skewX(-18deg);opacity:0.9;transition:all 0.9s ease-in-out;pointer-events:none;
+  mix-blend-mode:overlay;
+}
+.btn.glitter::after{
+  content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 10% 20%, rgba(255,255,255,0.12) 0 1px, transparent 2px), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0 1px, transparent 2px);
+  mix-blend-mode:screen;opacity:0.6;pointer-events:none;filter:blur(0.6px);
+  animation: glitter 3s linear infinite;
+}
+@keyframes glitter{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
+.btn:active{transform:translateY(1px)}
+
+/* result display - big glittery text */
+.result{
+  margin-top:20px;display:flex;align-items:center;gap:18px;flex-direction:column;
+}
+.result-box{
+  width:100%;min-height:110px;border-radius:14px;padding:18px;display:grid;place-items:center;text-align:center;
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));border:1px solid rgba(255,255,255,0.03);
+  position:relative;overflow:hidden
+}
+.glitter-text{
+  font-size:34px;font-weight:800;line-height:1;color:transparent;background:linear-gradient(90deg,#ffd7ff,#b58aff,#ffffff,#a259ff);
+  -webkit-background-clip:text;background-clip:text;animation: shimmer 2.6s linear infinite;background-size:300% 100%;
+  text-shadow: 0 6px 18px rgba(90,0,140,0.28);
+}
+@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* small decorative glitter overlay */
+.result-box::after{
+  content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 10%, rgba(255,255,255,0.06), transparent 8%),radial-gradient(circle at 80% 80%, rgba(255,255,255,0.04), transparent 8%);
+  mix-blend-mode:screen;pointer-events:none
+}
+
+/* footer controls */
+.music-toggle{margin-left:auto;display:flex;gap:8px;align-items:center}
+.hint{font-size:12px;color:rgba(230,220,255,0.5);margin-top:8px}
+
+/* responsive */
+@media (max-width:720px){
+  .form{grid-template-columns:1fr;}
+  .controls{flex-wrap:wrap}
+  .glitter-text{font-size:26px}
+}
+
+  </style>
+</head>
+<body>
+  <div class="blinking-orb" aria-hidden="true"></div>
+  <div class="twinkle" aria-hidden="true"></div>  <main class="card" role="main">
+    <div class="header">
+      <div class="logo">FL</div>
+      <div>
+        <h1>FLAMES — Glittery Version</h1>
+        <p class="lead">Type two names, press <strong>Reveal</strong> and see what fate (and glitter) says ✨</p>
+      </div>
+      <div class="music-toggle" style="margin-left:auto;">
+        <button class="btn" id="musicBtn">Play Music</button>
+      </div>
+    </div><div class="form" aria-label="names form">
+  <div class="field">
+    <label for="name1">Your name</label>
+    <input id="name1" type="text" placeholder="e.g. peace" autocomplete="off" />
+  </div>
+  <div class="field">
+    <label for="name2">Crush name</label>
+    <input id="name2" type="text" placeholder="e.g. David" autocomplete="off" />
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn accent glitter" id="revealBtn">Reveal</button>
+  <button class="btn" id="resetBtn">Reset</button>
+  <div style="flex:1"></div>
+  <div class="hint">Tip: spaces and special characters are ignored.</div>
+</div>
+
+<div class="result">
+  <div class="result-box" id="resultBox">
+    <div class="glitter-text" id="resultText">— Waiting for names —</div>
+  </div>
+</div>
+
+  </main>  <!-- WebAudio will synthesize a chill loop (no external files) -->  <script>
+    // ---------- FLAMES logic ----------
+    function sanitize(name){
+      return name.toLowerCase().replace(/[^a-z]/g,'');
+    }
+
+    function cancelCommon(a,b){
+      let arrA = a.split('');
+      let arrB = b.split('');
+      for(let i=arrA.length-1;i>=0;i--){
+        const idx = arrB.indexOf(arrA[i]);
+        if(idx !== -1){ arrA.splice(i,1); arrB.splice(idx,1); }
+      }
+      return arrA.length + arrB.length;
+    }
+
+    function flamesResult(count){
+      if(count === 0) return 'Siblings'; // all letters cancelled
+      let flames = ['F','L','A','M','E','S'];
+      let idx = 0;
+      while(flames.length > 1){
+        idx = (idx + count - 1) % flames.length;
+        flames.splice(idx,1);
+      }
+      const map = {F:'Friends',L:'Lovers',A:'Affectionate',M:'Marriage',E:'Enemies',S:'Siblings'};
+      return map[flames[0]] || 'Friends';
+    }
+
+    // UI hooks
+    const name1 = document.getElementById('name1');
+    const name2 = document.getElementById('name2');
+    const revealBtn = document.getElementById('revealBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultText = document.getElementById('resultText');
+    const resultBox = document.getElementById('resultBox');
+
+    function showResult(text){
+      // glittery reveal animation with small confetti dots
+      resultText.style.opacity = 0; 
+      resultText.textContent = text;
+      // animate scale and glow
+      resultBox.animate([
+        {transform:'scale(0.96)', boxShadow:'0 6px 20px rgba(100,0,180,0.06)'},
+        {transform:'scale(1.02)', boxShadow:'0 18px 60px rgba(110,20,220,0.22)'},
+        {transform:'scale(1)', boxShadow:'0 10px 30px rgba(90,0,180,0.12)'}
+      ],{duration:700,easing:'cubic-bezier(.2,.9,.3,1)'});
+      setTimeout(()=>{resultText.style.opacity = 1;},200);
+
+      // tiny sparkle burst using DOM elements
+      createSparkles();
+    }
+
+    revealBtn.addEventListener('click',()=>{
+      const a = sanitize(name1.value);
+      const b = sanitize(name2.value);
+      if(!a || !b){
+        showResult('Please enter both names');
+        return;
+      }
+      const count = cancelCommon(a,b);
+      const res = flamesResult(count);
+      showResult(res);
+    });
+
+    resetBtn.addEventListener('click',()=>{
+      name1.value = '';
+      name2.value = '';
+      showResult('— Waiting for names —');
+    });
+
+    // confetti-like sparkles
+    function createSparkles(){
+      const frag = document.createDocumentFragment();
+      for(let i=0;i<20;i++){
+        const s = document.createElement('div');
+        s.style.position='absolute';
+        s.style.width = s.style.height = (Math.random()*6+3)+'px';
+        s.style.left = (50 + (Math.random()-0.5)*80) + '%';
+        s.style.top = (50 + (Math.random()-0.5)*40) + '%';
+        s.style.background = 'radial-gradient(circle, rgba(255,255,255,0.95), rgba(162,89,255,0.9))';
+        s.style.borderRadius='50%';
+        s.style.pointerEvents='none';
+        s.style.opacity='0';
+        s.style.transform = 'translate(-50%,-50%) scale(0.6)';
+        s.style.boxShadow = '0 6px 14px rgba(160,70,255,0.16)';
+        resultBox.appendChild(s);
+        // animate
+        s.animate([
+          {opacity:0, transform:'translate(-50%,-50%) scale(0.2)'},
+          {opacity:1, transform:'translate(-50%,-150%) scale(1.1)'},
+          {opacity:0, transform:'translate(-50%,-220%) scale(0.6)'}
+        ],{duration:900+Math.random()*600,easing:'cubic-bezier(.2,.9,.3,1)'}).onfinish = ()=>s.remove();
+      }
+    }
+
+    // ---------- simple ambient music using WebAudio ----------
+    let audioCtx, masterGain, playing=false;
+    const musicBtn = document.getElementById('musicBtn');
+    musicBtn.addEventListener('click',async ()=>{
+      try{
+        if(!audioCtx){
+          audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+          masterGain = audioCtx.createGain(); masterGain.gain.value = 0.06; masterGain.connect(audioCtx.destination);
+          buildLoop();
+        }
+        if(audioCtx.state === 'suspended') await audioCtx.resume();
+        playing = !playing;
+        if(playing){ musicBtn.textContent='Pause Music'; } else { musicBtn.textContent='Play Music'; }
+      }catch(e){console.warn(e)}
+    });
+
+    function buildLoop(){
+      // pad (detuned saw-like) using two oscillators + lowpass
+      const pad = audioCtx.createGain(); pad.gain.value = 0.9; pad.connect(masterGain);
+      const lp = audioCtx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=700; lp.Q.value=0.6; lp.connect(pad);
+
+      const o1 = audioCtx.createOscillator(); o1.type='sawtooth'; o1.frequency.value=220; // A3
+      const o2 = audioCtx.createOscillator(); o2.type='sine'; o2.frequency.value=277.18; // C#4 slight detune
+      const o3 = audioCtx.createOscillator(); o3.type='sine'; o3.frequency.value=110; o3.detune.value=-10;
+      const g1 = audioCtx.createGain(); g1.gain.value=0.5; const g2 = audioCtx.createGain(); g2.gain.value=0.2; const g3 = audioCtx.createGain(); g3.gain.value=0.2;
+      o1.connect(g1); o2.connect(g2); o3.connect(g3); g1.connect(lp); g2.connect(lp); g3.connect(lp);
+      o1.start(); o2.start(); o3.start();
+
+      // slow LFO on filter cutoff for movement
+      const lfo = audioCtx.createOscillator(); lfo.type='sine'; lfo.frequency.value = 0.07; // very slow
+      const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 250; lfo.connect(lfoGain); lfoGain.connect(lp.frequency); lfo.start();
+
+      // simple looping bell hits (ambient)
+      const scheduleBell = ()=>{
+        const now = audioCtx.currentTime;
+        const bell = audioCtx.createOscillator(); bell.type='triangle'; bell.frequency.value = 880 + Math.random()*220;
+        const bellGain = audioCtx.createGain(); bellGain.gain.value = 0.0001; bell.connect(bellGain); bellGain.connect(masterGain);
+        bell.start(now);
+        bellGain.gain.linearRampToValueAtTime(0.08, now+0.04);
+        bellGain.gain.exponentialRampToValueAtTime(0.0001, now+2.5 + Math.random()*1.5);
+        bell.stop(now+3.2);
+      };
+
+      // schedule repeated ambient hits
+      setInterval(()=>{ if(playing) scheduleBell(); }, 1600);
+
+      // toggle playing flag when context resumed
+      playing = true; musicBtn.textContent='Pause Music';
+    }
+
+    // auto-freely start audio context on first user gesture (handled by clicking play) — modern browsers block autoplay
+
+    // small UX: hit Enter to reveal
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') revealBtn.click(); });
+
+    // init placeholder state
+    showResult('— Waiting for names —');
+  </script></body>
+</html>
